@@ -35,7 +35,36 @@ $(window).load(function () {
   scrollFooter(window.scrollY, footerHeight);
 
   // ao dar rolagem
-  window.onscroll = function () {
+  // window.onscroll = function () {
+
+  //   var scroll = window.scrollY;
+
+  //   $('#scroll-animate-main').css({
+  //     'top': '-' + scroll + 'px'
+  //   });
+
+  //   $('header').css({
+  //     'background-position-y': 50 - (scroll * 100 / heightDocument) + '%'
+  //   });
+
+  //   scrollFooter(scroll, footerHeight);
+  // }
+  
+
+  function throttle(callback, limit) {
+    var wait = false;                 // Initially, we're not waiting
+    return function () {              // We return a throttled function
+      if (!wait) {                  // If we're not waiting
+        callback.call();          // Execute users function
+        wait = true;              // Prevent future invocations
+        setTimeout(function () {  // After a period of time
+          wait = false;         // And allow future invocations
+        }, limit);
+      }
+    }
+  }
+
+  function callback() {
     var scroll = window.scrollY;
 
     $('#scroll-animate-main').css({
@@ -48,6 +77,8 @@ $(window).load(function () {
 
     scrollFooter(scroll, footerHeight);
   }
+
+  window.addEventListener("scroll", throttle(callback, 5));
 });
 
 
@@ -90,3 +121,9 @@ function drawCanvas() {
 }
 
 window.addEventListener('DOMContentLoaded', drawCanvas, false);
+
+$(".hover").mouseleave(
+  function () {
+    $(this).removeClass("hover");
+  }
+);
